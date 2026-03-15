@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whitesands Legacy Project</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,FAVICON_PLACEHOLDER">
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ws-blue: #0082FA;
+    --ws-blue-dark: #0066CC;
+    --ws-blue-deep: #004C99;
+    --ws-accent: #3495FB;
+    --ws-blue-light: #E8F3FF;
+    --ws-blue-mist: #F0F7FF;
+    --ws-red: #CC2222;
+    --ws-gold: #D4A843;
+    --ws-gold-light: #FBF5E6;
+    --ws-cream: #FAFAFA;
+    --ws-white: #FFFFFF;
+    --ws-dark: #1F1F1F;
+    --ws-muted: #5A6A7A;
+    --ws-border: #D8E3ED;
+    --ws-success: #2E8B57;
+    --ws-success-light: #EBF7F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    color: var(--ws-dark);
+    background: var(--ws-cream);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 840px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── Demo Banner ── */
+  .demo-banner {
+    background: var(--ws-blue-deep);
+    color: var(--ws-white);
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .demo-banner span { color: var(--ws-gold); }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--ws-white);
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--ws-blue);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .site-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-crest {
+    width: 42px;
+    height: auto;
+  }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ws-dark);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+  .header-text p {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ws-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .header-badge {
+    background: var(--ws-blue-light);
+    color: var(--ws-blue-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid rgba(0,130,250,0.2);
+  }
+
+  /* ── Progress Bar ── */
+  .progress-bar {
+    background: var(--ws-white);
+    border-bottom: 1px solid var(--ws-border);
+    padding: 16px 0;
+  }
+  .progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .progress-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ws-muted);
+    font-weight: 500;
+  }
+  .progress-step.active { color: var(--ws-blue-dark); font-weight: 600; }
+  .progress-step.completed { color: var(--ws-success); }
+  .step-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--ws-border);
+    color: var(--ws-muted);
+    transition: all 0.3s ease;
+  }
+  .progress-step.active .step-dot {
+    background: var(--ws-blue);
+    color: var(--ws-white);
+    box-shadow: 0 0 0 4px rgba(0,130,250,0.15);
+  }
+  .progress-step.completed .step-dot {
+    background: var(--ws-success);
+    color: var(--ws-white);
+  }
+  .step-line {
+    width: 40px;
+    height: 2px;
+    background: var(--ws-border);
+    border-radius: 2px;
+  }
+  .step-line.completed { background: var(--ws-success); }
+
+  /* ── Pages ── */
+  .page { display: none; animation: fadeUp 0.45s ease; }
+  .page.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 48px 0 40px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ws-blue);
+    margin-bottom: 18px;
+  }
+  .hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.18;
+    color: var(--ws-dark);
+    margin-bottom: 18px;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero h2 em {
+    color: var(--ws-blue);
+    font-style: italic;
+  }
+  .hero p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ws-muted);
+    max-width: 520px;
+    margin: 0 auto 36px;
+  }
+
+  /* ── Video Section ── */
+  .video-section {
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+  .video-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #0a1628 0%, #0d2847 50%, #0a1628 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: relative;
+    cursor: pointer;
+  }
+  .video-play-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--ws-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(0,130,250,0.4);
+    transition: all 0.3s ease;
+  }
+  .video-play-btn:hover { transform: scale(1.08); }
+  .video-play-btn svg { margin-left: 4px; }
+  .video-label {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .video-sublabel {
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  /* ── How It Works ── */
+  .how-it-works {
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+    border-radius: 12px;
+    padding: 36px 32px;
+    margin-bottom: 40px;
+  }
+  .how-it-works h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ws-dark);
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .process-card {
+    text-align: center;
+    padding: 20px 14px;
+    border-radius: 8px;
+    background: var(--ws-blue-mist);
+    border: 1px solid var(--ws-border);
+  }
+  .process-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 18px;
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+  }
+  .process-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ws-blue-dark);
+    margin-bottom: 6px;
+  }
+  .process-card p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ws-muted);
+  }
+  .process-time {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: var(--ws-white);
+    color: var(--ws-muted);
+    border: 1px solid var(--ws-border);
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ws-blue);
+    color: var(--ws-white);
+    border: none;
+    padding: 15px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover {
+    background: var(--ws-blue-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,130,250,0.25);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ws-white);
+    color: var(--ws-blue-dark);
+    border: 1.5px solid var(--ws-blue);
+    padding: 13px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-secondary:hover { background: var(--ws-blue-light); }
+  .btn-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 36px;
+    padding-bottom: 48px;
+  }
+
+  /* ── Prompt Selection ── */
+  .section-header {
+    text-align: center;
+    padding: 48px 0 28px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ws-dark);
+    margin-bottom: 10px;
+  }
+  .section-header p {
+    font-size: 15px;
+    color: var(--ws-muted);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .selection-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ws-blue-dark);
+    margin-top: 14px;
+  }
+  .selection-counter .count {
+    background: var(--ws-blue);
+    color: var(--ws-white);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .prompt-grid { display: grid; gap: 10px; padding-bottom: 12px; }
+
+  .prompt-card {
+    background: var(--ws-white);
+    border: 2px solid var(--ws-border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .prompt-card:hover {
+    border-color: var(--ws-accent);
+    background: var(--ws-blue-mist);
+  }
+  .prompt-card.selected {
+    border-color: var(--ws-blue);
+    background: var(--ws-blue-light);
+    box-shadow: 0 0 0 3px rgba(0,130,250,0.1);
+  }
+  .prompt-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .prompt-checkbox {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 4px;
+    border: 2px solid var(--ws-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-top: 2px;
+  }
+  .prompt-card.selected .prompt-checkbox {
+    background: var(--ws-blue);
+    border-color: var(--ws-blue);
+  }
+  .prompt-checkbox svg { opacity: 0; transition: opacity 0.2s ease; }
+  .prompt-card.selected .prompt-checkbox svg { opacity: 1; }
+  .prompt-content { flex: 1; }
+  .prompt-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ws-blue);
+    margin-bottom: 4px;
+  }
+  .prompt-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ws-dark);
+    font-style: italic;
+  }
+
+  /* ── Story Writing ── */
+  .story-block {
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .story-block .prompt-label-write {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ws-blue);
+    margin-bottom: 4px;
+  }
+  .story-block .prompt-text-write {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ws-dark);
+    margin-bottom: 20px;
+    line-height: 1.45;
+  }
+
+  /* Input Mode Tabs */
+  .input-mode-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--ws-border);
+    border-radius: 6px;
+    overflow: hidden;
+    width: fit-content;
+  }
+  .input-tab {
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    cursor: pointer;
+    border: none;
+    background: var(--ws-white);
+    color: var(--ws-muted);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-right: 1px solid var(--ws-border);
+  }
+  .input-tab:last-child { border-right: none; }
+  .input-tab.active {
+    background: var(--ws-blue);
+    color: var(--ws-white);
+  }
+  .input-tab:not(.active):hover { background: var(--ws-blue-mist); }
+  .input-tab svg { width: 16px; height: 16px; }
+
+  .input-pane { display: none; }
+  .input-pane.active { display: block; }
+
+  .story-textarea {
+    width: 100%;
+    min-height: 150px;
+    border: 1.5px solid var(--ws-border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ws-dark);
+    resize: vertical;
+    transition: border-color 0.2s ease;
+    background: var(--ws-blue-mist);
+  }
+  .story-textarea:focus {
+    outline: none;
+    border-color: var(--ws-blue);
+    background: var(--ws-white);
+  }
+  .story-textarea::placeholder { color: #A0B0C0; }
+  .char-count {
+    text-align: right;
+    font-size: 12px;
+    color: var(--ws-muted);
+    margin-top: 6px;
+  }
+
+  /* Voice Recorder */
+  .voice-recorder {
+    background: var(--ws-blue-mist);
+    border: 1.5px solid var(--ws-border);
+    border-radius: 6px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .recorder-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+  .recorder-bar {
+    width: 4px;
+    border-radius: 4px;
+    background: var(--ws-border);
+    transition: all 0.15s ease;
+  }
+  .voice-recorder.recording .recorder-bar {
+    background: var(--ws-blue);
+    animation: barPulse 0.6s ease-in-out infinite alternate;
+  }
+  @keyframes barPulse {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+  }
+  .recorder-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+  .recorder-bar:nth-child(2) { height: 32px; animation-delay: 0.08s; }
+  .recorder-bar:nth-child(3) { height: 44px; animation-delay: 0.16s; }
+  .recorder-bar:nth-child(4) { height: 28px; animation-delay: 0.24s; }
+  .recorder-bar:nth-child(5) { height: 38px; animation-delay: 0.32s; }
+  .recorder-bar:nth-child(6) { height: 22px; animation-delay: 0.4s; }
+  .recorder-bar:nth-child(7) { height: 34px; animation-delay: 0.48s; }
+
+  .rec-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid var(--ws-border);
+    background: var(--ws-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    transition: all 0.25s ease;
+  }
+  .rec-btn:hover { border-color: var(--ws-blue); }
+  .rec-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--ws-red);
+    transition: all 0.2s ease;
+  }
+  .voice-recorder.recording .rec-btn {
+    border-color: var(--ws-red);
+    box-shadow: 0 0 0 4px rgba(204,34,34,0.15);
+  }
+  .voice-recorder.recording .rec-dot {
+    border-radius: 4px;
+    width: 18px;
+    height: 18px;
+  }
+  .rec-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ws-muted);
+  }
+  .rec-timer {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ws-dark);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 4px;
+    display: none;
+  }
+  .voice-recorder.recording .rec-timer { display: block; }
+  .voice-recorder.recording .rec-label-idle { display: none; }
+  .rec-hint {
+    font-size: 11px;
+    color: var(--ws-muted);
+    margin-top: 8px;
+  }
+
+  /* Recorded file display */
+  .recording-done {
+    display: none;
+    background: var(--ws-success-light);
+    border: 1px solid rgba(46,139,87,0.2);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    align-items: center;
+    gap: 10px;
+  }
+  .recording-done.visible { display: flex; }
+  .recording-done svg { color: var(--ws-success); min-width: 20px; }
+  .recording-done span { font-size: 13px; color: var(--ws-dark); font-weight: 500; }
+  .recording-done .rec-duration { color: var(--ws-muted); font-weight: 400; }
+
+  /* ── Details & Upload ── */
+  .form-card {
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .form-group { margin-bottom: 14px; }
+  .form-group:last-child { margin-bottom: 0; }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ws-dark);
+    margin-bottom: 5px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--ws-border);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: var(--ws-dark);
+    background: var(--ws-blue-mist);
+    transition: border-color 0.2s ease;
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--ws-blue);
+    background: var(--ws-white);
+  }
+
+  .upload-zone {
+    border: 2px dashed var(--ws-border);
+    border-radius: 8px;
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: var(--ws-blue-mist);
+  }
+  .upload-zone:hover {
+    border-color: var(--ws-blue);
+    background: var(--ws-blue-light);
+  }
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-zone h4 { font-size: 14px; font-weight: 600; color: var(--ws-dark); margin-bottom: 4px; }
+  .upload-zone p { font-size: 12px; color: var(--ws-muted); }
+
+  .consent-box {
+    background: var(--ws-blue-light);
+    border: 1px solid rgba(0,130,250,0.12);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 16px;
+  }
+  .consent-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ws-dark);
+  }
+  .consent-box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 2px;
+    accent-color: var(--ws-blue);
+  }
+
+  /* ── Success ── */
+  .success-page {
+    text-align: center;
+    padding: 72px 0;
+  }
+  .success-icon {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    background: var(--ws-success-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    font-size: 32px;
+    color: var(--ws-success);
+  }
+  .success-page h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--ws-dark);
+    margin-bottom: 12px;
+  }
+  .success-page p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ws-muted);
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .success-quote {
+    margin-top: 36px;
+    padding: 22px 28px;
+    background: var(--ws-white);
+    border-left: 4px solid var(--ws-blue);
+    border-radius: 0 8px 8px 0;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .success-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--ws-dark);
+    line-height: 1.5;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center;
+    padding: 28px 0;
+    border-top: 1px solid var(--ws-border);
+    margin-top: 40px;
+  }
+  .site-footer p {
+    font-size: 12px;
+    color: var(--ws-muted);
+  }
+
+  /* ── Edit Link Card (Success page) ── */
+  .edit-link-card {
+    background: var(--ws-white);
+    border: 1px solid var(--ws-border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    max-width: 460px;
+    margin: 28px auto 0;
+    text-align: left;
+  }
+  .edit-link-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ws-dark);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .edit-link-card h4 .icon-link {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ws-blue-light);
+    border-radius: 4px;
+    font-size: 11px;
+  }
+  .edit-link-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ws-muted);
+    text-align: left;
+  }
+  .edit-link-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--ws-blue-mist);
+    border: 1px solid var(--ws-border);
+    border-radius: 6px;
+  }
+  .edit-link-preview .link-text {
+    flex: 1;
+    font-size: 13px;
+    color: var(--ws-blue-dark);
+    font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .edit-link-preview .copy-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    background: var(--ws-blue);
+    color: var(--ws-white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .edit-link-preview .copy-btn:hover { background: var(--ws-blue-dark); }
+
+  /* ── Responsive: Tablet ── */
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 40px 0 32px; }
+    .hero h2 { font-size: 34px; }
+    .hero p { font-size: 16px; margin-bottom: 28px; }
+    .how-it-works { padding: 28px 24px; }
+    .process-grid { gap: 16px; }
+    .section-header { padding: 40px 0 24px; }
+    .section-header h2 { font-size: 28px; }
+    .btn-primary { padding: 14px 28px; font-size: 14px; }
+    .btn-secondary { padding: 12px 20px; font-size: 13px; }
+    .prompt-card { padding: 16px 18px; }
+    .prompt-text { font-size: 15px; }
+    .story-block { padding: 24px 20px; }
+    .form-card { padding: 24px 20px; }
+    .success-page { padding: 56px 0; }
+    .success-page h2 { font-size: 32px; }
+  }
+
+  /* ── Responsive: Mobile ── */
+  @media (max-width: 540px) {
+    .container { padding: 0 16px; }
+
+    /* Demo banner */
+    .demo-banner { font-size: 10px; padding: 8px 12px; letter-spacing: 0.04em; }
+
+    /* Header */
+    .site-header { padding: 10px 0; }
+    .header-crest { width: 32px; }
+    .header-text h1 { font-size: 16px; }
+    .header-text p { font-size: 10px; }
+    .header-badge { display: none; }
+    .header-left { gap: 10px; }
+
+    /* Progress */
+    .progress-bar { padding: 12px 0; }
+    .progress-steps { gap: 4px; }
+    .progress-step span { display: none; }
+    .step-dot { width: 26px; height: 26px; font-size: 11px; }
+    .step-line { width: 14px; }
+
+    /* Hero */
+    .hero { padding: 32px 0 24px; }
+    .hero-eyebrow { font-size: 10px; margin-bottom: 14px; }
+    .hero h2 { font-size: 28px; margin-bottom: 14px; }
+    .hero p { font-size: 15px; margin-bottom: 28px; }
+
+    /* Video */
+    .video-placeholder { aspect-ratio: 4 / 3; }
+    .video-play-btn { width: 56px; height: 56px; }
+    .video-play-btn svg { width: 22px; height: 22px; }
+    .video-label { font-size: 13px; }
+    .video-sublabel { font-size: 11px; }
+    .video-section { border-radius: 8px; margin-bottom: 24px; }
+
+    /* How it works */
+    .how-it-works { padding: 24px 16px; margin-bottom: 28px; border-radius: 8px; }
+    .how-it-works h3 { font-size: 20px; margin-bottom: 20px; }
+    .process-grid { grid-template-columns: 1fr; gap: 12px; }
+    .process-card { padding: 16px 14px; text-align: left; display: flex; gap: 14px; align-items: flex-start; }
+    .process-card .process-icon { margin: 0; min-width: 40px; width: 40px; height: 40px; font-size: 16px; }
+    .process-card h4 { text-align: left; }
+    .process-card p { text-align: left; }
+    .process-time { margin-top: 8px; }
+
+    /* Buttons */
+    .btn-primary { padding: 14px 24px; font-size: 14px; width: 100%; justify-content: center; }
+    .btn-secondary { padding: 12px 18px; font-size: 13px; }
+    .btn-row { flex-direction: column-reverse; gap: 10px; padding-bottom: 36px; }
+    .btn-row .btn-secondary { width: 100%; justify-content: center; }
+
+    /* Prompts */
+    .section-header { padding: 32px 0 20px; }
+    .section-header h2 { font-size: 26px; }
+    .section-header p { font-size: 14px; }
+    .selection-counter { margin-top: 12px; font-size: 12px; }
+    .prompt-grid { gap: 8px; }
+    .prompt-card { padding: 14px 14px; gap: 12px; border-radius: 8px; }
+    .prompt-checkbox { width: 20px; height: 20px; min-width: 20px; border-radius: 4px; }
+    .prompt-label { font-size: 9px; }
+    .prompt-text { font-size: 15px; }
+
+    /* Story writing */
+    .story-block { padding: 20px 16px; border-radius: 8px; margin-bottom: 14px; }
+    .story-block .prompt-text-write { font-size: 16px; margin-bottom: 16px; }
+    .input-mode-tabs { width: 100%; }
+    .input-tab { flex: 1; justify-content: center; padding: 10px 12px; font-size: 12px; }
+    .story-textarea { min-height: 130px; padding: 14px 14px; font-size: 14px; border-radius: 6px; }
+    .voice-recorder { padding: 24px 16px; border-radius: 6px; }
+    .rec-btn { width: 52px; height: 52px; }
+    .rec-dot { width: 20px; height: 20px; }
+    .rec-hint { font-size: 10px; }
+
+    /* Details form */
+    .form-card { padding: 20px 16px; border-radius: 8px; margin-bottom: 12px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .form-label { font-size: 12px; }
+    .form-input { padding: 12px 14px; font-size: 14px; }
+    .upload-zone { padding: 28px 16px; }
+    .upload-icon { font-size: 24px; }
+    .upload-zone h4 { font-size: 13px; }
+    .upload-zone p { font-size: 11px; }
+    .consent-box { padding: 16px 16px; border-radius: 6px; }
+    .consent-box label { font-size: 12px; gap: 10px; }
+    .consent-box input[type="checkbox"] { width: 18px; height: 18px; min-width: 18px; }
+
+    /* Success */
+    .success-page { padding: 48px 0; }
+    .success-icon { width: 64px; height: 64px; font-size: 28px; margin-bottom: 18px; }
+    .success-page h2 { font-size: 28px; }
+    .success-page p { font-size: 15px; }
+    .success-quote { padding: 18px 20px; margin-top: 28px; }
+    .success-quote p { font-size: 16px; }
+
+    /* Edit link card */
+    .edit-link-card { padding: 18px 16px; }
+    .edit-link-preview { flex-direction: column; align-items: stretch; gap: 8px; }
+    .edit-link-preview .link-text { font-size: 12px; }
+    .edit-link-preview .copy-btn { text-align: center; }
+
+    /* Footer */
+    .site-footer { padding: 24px 0; margin-top: 28px; }
+  }
+
+  /* ── Responsive: Small phones ── */
+  @media (max-width: 380px) {
+    .hero h2 { font-size: 24px; }
+    .section-header h2 { font-size: 22px; }
+    .prompt-text { font-size: 14px; }
+    .step-line { width: 10px; }
+    .step-dot { width: 24px; height: 24px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Demo Banner -->
+<div class="demo-banner">
+  Portal Preview  &middot;  <span>Whitesands Legacy Project</span>  &middot;  Alumni Submission Experience
+</div>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-left">
+      <img src="https://whitesands.org.ng/wp-content/uploads/2023/01/image-1-1.png" alt="Whitesands School Crest" class="header-crest">
+      <div class="header-text">
+        <h1>Whitesands Legacy Project</h1>
+        <p>Celebrating 25 Years</p>
+      </div>
+    </div>
+    <div class="header-badge">25th Anniversary</div>
+  </div>
+</header>
+
+<!-- Progress Bar -->
+<nav class="progress-bar">
+  <div class="progress-steps">
+    <div class="progress-step active" data-step="1">
+      <div class="step-dot">1</div><span>Welcome</span>
+    </div>
+    <div class="step-line" data-line="1"></div>
+    <div class="progress-step" data-step="2">
+      <div class="step-dot">2</div><span>Choose Prompts</span>
+    </div>
+    <div class="step-line" data-line="2"></div>
+    <div class="progress-step" data-step="3">
+      <div class="step-dot">3</div><span>Share Your Story</span>
+    </div>
+    <div class="step-line" data-line="3"></div>
+    <div class="progress-step" data-step="4">
+      <div class="step-dot">4</div><span>Details</span>
+    </div>
+    <div class="step-line" data-line="4"></div>
+    <div class="progress-step" data-step="5">
+      <div class="step-dot">&#10003;</div><span>Complete</span>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE 1: Welcome -->
+<div class="page active" id="page-1">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-eyebrow">25 Years of Formation</div>
+      <h2>Your Story is Part of the <em>Whitesands</em> Story</h2>
+      <p>We are building a lasting record of the people, moments, and relationships that have defined Whitesands School over 25 years. This is your invitation to contribute.</p>
+    </div>
+
+    <!-- Video Introduction -->
+    <div class="video-section">
+      <div class="video-placeholder" id="video-area">
+        <div class="video-play-btn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
+        </div>
+        <div class="video-label">A message from Whitesands</div>
+        <div class="video-sublabel">Tap to play introduction video</div>
+      </div>
+    </div>
+
+    <div class="how-it-works">
+      <h3>How This Works</h3>
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-icon">&#9997;</div>
+          <h4>You Share</h4>
+          <p>Choose 2-3 guided prompts. Write your story or record it in your own voice.</p>
+          <div class="process-time">10-15 minutes</div>
+        </div>
+        <div class="process-card">
+          <div class="process-icon">&#9881;</div>
+          <h4>We Curate</h4>
+          <p>Our editorial team organizes stories by theme and ensures every voice is honored.</p>
+          <div class="process-time">6 weeks</div>
+        </div>
+        <div class="process-card">
+          <div class="process-icon">&#9733;</div>
+          <h4>We Preserve</h4>
+          <p>Your story becomes part of a commemorative book and a living digital collection.</p>
+          <div class="process-time">Permanent</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; padding-bottom: 48px;">
+      <button class="btn-primary" onclick="goToPage(2)">Begin Your Contribution &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: Prompt Selection -->
+<div class="page" id="page-2">
+  <div class="container">
+    <div class="section-header">
+      <h2>Choose Your Prompts</h2>
+      <p>Select 2 or 3 prompts that speak to your experience at Whitesands. There are no wrong choices.</p>
+      <div class="selection-counter">
+        <span class="count" id="selected-count">0</span>
+        <span>of 3 selected</span>
+      </div>
+    </div>
+    <div class="prompt-grid" id="prompt-grid"></div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goToPage(1)">&#8592; Back</button>
+      <button class="btn-primary" id="btn-to-writing" onclick="goToPage(3)" disabled>Continue to Writing &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: Story Writing -->
+<div class="page" id="page-3">
+  <div class="container">
+    <div class="section-header">
+      <h2>Share Your Story</h2>
+      <p>Write naturally, or record your voice. There is no minimum or maximum. Every story matters.</p>
+    </div>
+    <div id="story-blocks"></div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goToPage(2)">&#8592; Back</button>
+      <button class="btn-primary" onclick="goToPage(4)">Continue &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: Details & Upload -->
+<div class="page" id="page-4">
+  <div class="container">
+    <div class="section-header">
+      <h2>A Few Details</h2>
+      <p>Help us connect your story to the right chapter of the Whitesands timeline.</p>
+    </div>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" placeholder="As you'd like it to appear">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Graduation Year</label>
+          <input type="text" class="form-input" placeholder="e.g. 2008">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Relationship to Whitesands</label>
+          <select class="form-input">
+            <option value="">Select one</option>
+            <option>Alumni</option>
+            <option>Current or Former Parent</option>
+            <option>Current or Former Staff</option>
+            <option>Founding Family</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="For follow-up only">
+        </div>
+      </div>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label class="form-label">Share a Photo (Optional)</label>
+        <div class="upload-zone">
+          <div class="upload-icon">&#128247;</div>
+          <h4>Drop a photo here or click to browse</h4>
+          <p>School photos, graduation, events, or anything that captures your Whitesands years.</p>
+        </div>
+      </div>
+    </div>
+    <div class="consent-box">
+      <label>
+        <input type="checkbox" id="consent-check">
+        <span>I give permission for my story, voice recording, and photo to be included in the Whitesands Legacy Project, which may include a digital repository and a printed commemorative book. I understand I can edit my submission via a personal link sent to my email, and that I will have the opportunity to review my contribution before final publication.</span>
+      </label>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goToPage(3)">&#8592; Back</button>
+      <button class="btn-primary" onclick="goToPage(5)">Submit Your Story &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5: Success -->
+<div class="page" id="page-5">
+  <div class="container">
+    <div class="success-page">
+      <div class="success-icon">&#10003;</div>
+      <h2>Thank You</h2>
+      <p>Your story has been received and is now part of the Whitesands Legacy Project. Our editorial team will be in touch if we have any questions.</p>
+
+      <div class="edit-link-card">
+        <h4><span class="icon-link">&#128279;</span> Want to edit your story later?</h4>
+        <p>We have sent a personal edit link to your email. Use it any time during the collection window to revise your story, add photos, or update your recording. No account or password needed.</p>
+        <div class="edit-link-preview">
+          <span class="link-text">whitesands-legacy.com/edit/abc-7x9k-mNp2</span>
+          <button class="copy-btn" onclick="this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy Link',1500)">Copy Link</button>
+        </div>
+      </div>
+
+      <div class="success-quote">
+        <p>"25 years of stories, relationships, and formation. Yours is now part of that record."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <p>Whitesands Legacy Project  &middot;  Whitesands School, Lekki, Lagos  &middot;  All contributions are handled with care and confidentiality.</p>
+  </div>
+</footer>
+
+<script>
+const prompts = [
+  { label: "The Arrival", text: "Describe your first week at Whitesands. What surprised you, confused you, or stayed with you?" },
+  { label: "The Formation Moment", text: "Was there a moment at Whitesands when you understood something about yourself that you hadn't seen before? What happened, and who was involved?" },
+  { label: "The Teacher", text: "Name one adult at Whitesands who shaped you in a way they may not even know about. What did they do or say?" },
+  { label: "The Family Thread", text: "Whitesands is built on the idea that education is a family experience. How did your family's involvement in school life shape your time there, or shape your family itself?" },
+  { label: "The Hardest Lesson", text: "What was the most difficult thing you navigated during your time at Whitesands, and what did it teach you that you only understood later?" },
+  { label: "The Friendship", text: "Describe a friendship from Whitesands that changed you. Is that person still in your life?" },
+  { label: "The Tradition", text: "What Whitesands tradition, event, or routine do you still think about? Why did it matter?" },
+  { label: "The After", text: "How did Whitesands prepare you for what came next, whether that was university, career, family, or something you didn't expect?" },
+  { label: "The Message Forward", text: "If you could say one thing to a student starting at Whitesands today, what would it be?" },
+  { label: "The Long View", text: "You were part of building something that has now shaped 25 years of young lives. What does that mean to you?" },
+];
+
+let selectedPrompts = new Set();
+
+// Render prompts
+const grid = document.getElementById('prompt-grid');
+prompts.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'prompt-card';
+  card.dataset.index = i;
+  card.innerHTML = `
+    <div class="prompt-checkbox">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="prompt-content">
+      <div class="prompt-label">${p.label}</div>
+      <div class="prompt-text">"${p.text}"</div>
+    </div>`;
+  card.addEventListener('click', () => togglePrompt(i, card));
+  grid.appendChild(card);
+});
+
+function togglePrompt(index, card) {
+  if (selectedPrompts.has(index)) {
+    selectedPrompts.delete(index);
+    card.classList.remove('selected');
+  } else if (selectedPrompts.size < 3) {
+    selectedPrompts.add(index);
+    card.classList.add('selected');
+  }
+  updatePromptUI();
+}
+
+function updatePromptUI() {
+  const count = selectedPrompts.size;
+  document.getElementById('selected-count').textContent = count;
+  document.getElementById('btn-to-writing').disabled = count < 2;
+  document.querySelectorAll('.prompt-card').forEach((card, i) => {
+    card.classList.toggle('disabled', count >= 3 && !selectedPrompts.has(i));
+  });
+}
+
+function buildStoryBlocks() {
+  const container = document.getElementById('story-blocks');
+  container.innerHTML = '';
+  let blockIdx = 0;
+  selectedPrompts.forEach(index => {
+    const p = prompts[index];
+    const id = 'block-' + blockIdx++;
+    const block = document.createElement('div');
+    block.className = 'story-block';
+    block.innerHTML = `
+      <div class="prompt-label-write">${p.label}</div>
+      <div class="prompt-text-write">"${p.text}"</div>
+      <div class="input-mode-tabs">
+        <button class="input-tab active" data-mode="write" data-id="${id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Write
+        </button>
+        <button class="input-tab" data-mode="voice" data-id="${id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          Record Voice
+        </button>
+      </div>
+      <div class="input-pane active" data-pane="write-${id}">
+        <textarea class="story-textarea" placeholder="Write your story here. Speak naturally. There is no minimum or maximum."></textarea>
+        <div class="char-count">0 words</div>
+      </div>
+      <div class="input-pane" data-pane="voice-${id}">
+        <div class="voice-recorder" id="recorder-${id}">
+          <div class="recorder-visual">
+            <div class="recorder-bar"></div>
+            <div class="recorder-bar"></div>
+            <div class="recorder-bar"></div>
+            <div class="recorder-bar"></div>
+            <div class="recorder-bar"></div>
+            <div class="recorder-bar"></div>
+            <div class="recorder-bar"></div>
+          </div>
+          <div class="rec-timer" id="timer-${id}">0:00</div>
+          <button class="rec-btn" onclick="toggleRecording('${id}')">
+            <div class="rec-dot"></div>
+          </button>
+          <div class="rec-label rec-label-idle">Tap to start recording</div>
+          <div class="rec-label" style="display:none" id="rec-active-label-${id}">Recording... tap to stop</div>
+          <div class="rec-hint">Share your story in your own voice. Recordings are transcribed and edited by our team.</div>
+        </div>
+        <div class="recording-done" id="done-${id}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>Voice recording saved <span class="rec-duration" id="duration-${id}"></span></span>
+        </div>
+      </div>`;
+    container.appendChild(block);
+
+    // Wire up tabs
+    block.querySelectorAll('.input-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        block.querySelectorAll('.input-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        block.querySelectorAll('.input-pane').forEach(pane => pane.classList.remove('active'));
+        const mode = tab.dataset.mode;
+        block.querySelector(`[data-pane="${mode}-${id}"]`).classList.add('active');
+      });
+    });
+
+    // Word count
+    const textarea = block.querySelector('textarea');
+    const counter = block.querySelector('.char-count');
+    textarea.addEventListener('input', () => {
+      const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+      counter.textContent = words + ' word' + (words !== 1 ? 's' : '');
+    });
+  });
+}
+
+// Voice recording simulation (MVP demo)
+const recorders = {};
+function toggleRecording(id) {
+  const recorder = document.getElementById('recorder-' + id);
+  const timer = document.getElementById('timer-' + id);
+  const activeLabel = document.getElementById('rec-active-label-' + id);
+  const done = document.getElementById('done-' + id);
+  const duration = document.getElementById('duration-' + id);
+
+  if (!recorders[id]) {
+    // Start recording
+    recorders[id] = { seconds: 0, interval: null };
+    recorder.classList.add('recording');
+    activeLabel.style.display = 'block';
+    recorder.querySelector('.rec-label-idle').style.display = 'none';
+    recorders[id].interval = setInterval(() => {
+      recorders[id].seconds++;
+      const m = Math.floor(recorders[id].seconds / 60);
+      const s = recorders[id].seconds % 60;
+      timer.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    }, 1000);
+  } else {
+    // Stop recording
+    clearInterval(recorders[id].interval);
+    const totalSec = recorders[id].seconds;
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    recorder.classList.remove('recording');
+    activeLabel.style.display = 'none';
+    done.classList.add('visible');
+    duration.textContent = '(' + m + ':' + (s < 10 ? '0' : '') + s + ')';
+    recorders[id] = null;
+  }
+}
+
+// Navigation
+function goToPage(num) {
+  if (num === 3) buildStoryBlocks();
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + num).classList.add('active');
+  document.querySelectorAll('.progress-step').forEach(step => {
+    const s = parseInt(step.dataset.step);
+    step.classList.remove('active', 'completed');
+    if (s === num) step.classList.add('active');
+    else if (s < num) step.classList.add('completed');
+  });
+  document.querySelectorAll('.step-line').forEach(line => {
+    const l = parseInt(line.dataset.line);
+    line.classList.toggle('completed', l < num);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
